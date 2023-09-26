@@ -1,0 +1,14 @@
+Backend:
+    pip install flask
+    pip install sqlalchemy
+    pip install flask-sqlalchemy
+    pip install marshmallow
+    pip install flask_jwt_extended
+    pip install flask-cors
+    pip install pillow
+    pip install mysql-connector-python
+Frontend:
+    npm i bootstrap
+    npm i bootswatch@5.3.0
+    npm i @ng-bootstrap/ng-bootstrap
+    npm i @fortawesome/fontawesome-free

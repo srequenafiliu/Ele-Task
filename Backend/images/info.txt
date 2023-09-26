@@ -1,0 +1,1 @@
+Carpeta donde se almacenarán las fotos de perfil de los usuarios de Ele-Task

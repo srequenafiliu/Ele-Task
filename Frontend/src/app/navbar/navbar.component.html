@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><img alt="Logo de SweetStoves" src="../../assets/logo.png"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarWeb" aria-controls="navbarWeb" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarWeb">
+      <ul class="navbar-nav d-flex flex-row text-center order-lg-3 bg-light bg-opacity-25 rounded-4" *ngIf="!user, else cuentaUser">
+        <li class="nav-item flex-fill">
+          <a class="nav-link" [routerLink]="['/login']" [routerLinkActive]="['active']">
+            <i class="fas fa-user-check"></i>
+            &nbsp;&nbsp;<span>Registrarse o iniciar sesión</span>&nbsp;&nbsp;
+            <i class="fas fa-user-plus"></i>
+          </a>
+        </li>
+      </ul>
+      <ng-template #cuentaUser>
+        <ul class="navbar-nav order-lg-3" *ngIf="user">
+          <li class="nav-item">
+            <a class="d-flex nav-link" [routerLink]="['/perfil-usuario']" [routerLinkActive]="['active']" [title]="user.usuario">
+              <img class="rounded-circle object-fit-cover" [src]="user.imagen" [alt]="user.usuario" *ngIf="user.imagen, else sinFoto">
+              <ng-template #sinFoto>
+                <div class="d-flex bg-secondary rounded-circle">
+                  <span class="h3 text-white fw-bold m-auto">{{user.usuario[0].toUpperCase()}}</span>
+                </div>
+              </ng-template>
+              <div class="d-lg-none my-auto ps-2">Perfil de {{user.usuario}}</div>
+            </a>
+          </li>
+        </ul>
+      </ng-template>
+      <ul class="navbar-nav order-lg-1" [ngClass]="{'me-auto': !user}">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/inicio']" [routerLinkActive]="['active']">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/usuarios']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptions">Usuarios</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/estadisticas']" [routerLinkActive]="['active']">Estadísticas</a>
+        </li>
+      </ul>
+      <form class="d-flex order-lg-2 ms-lg-4 me-auto" (ngSubmit)="searchTask()" #form="ngForm" *ngIf="user">
+        <input class="form-control me-sm-2" type="search" autocomplete="off" name="search" placeholder="Buscar tarea.." required [(ngModel)]="search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit" [disabled]="form.invalid">Buscar</button>
+      </form>
+    </div>
+  </div>
+</nav>

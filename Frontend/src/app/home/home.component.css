@@ -1,0 +1,12 @@
+#logo {
+  background-image: url(../../assets/back_logo.jpg);
+  background-size: cover;
+  background-position: center;
+  padding:2.75% 0;
+}
+#logo>img {
+  width: 50%;
+}
+.fa-square, .fa-inverse {
+  transform: rotate(-10deg);
+}

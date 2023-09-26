@@ -1,0 +1,30 @@
+<div class="text-center" id="logo">
+  <img alt="Logo de SweetStoves" src="../../assets/logo.png">
+  <h2 class="mt-2 fw-bold text-rose">Para los que no tienen memoria de elefante...</h2>
+</div>
+<section class="mt-5">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="section-heading text-uppercase">Te damos la bienvenida a Ele-Task</h2>
+    </div>
+    <div class="row g-0 text-center">
+      <div class="col-md-4 p-2" *ngFor="let servicio of servicios, even as isEven">
+        <span class="d-none d-md-inline-block fa-stack fa-4x">
+          <i class="fas fa-square fa-stack-2x text-primary"></i>
+          <i [class]="'fas fa-'+servicio.icon+' fa-stack-1x fa-inverse'"></i>
+        </span>
+        <h4 class="my-3">{{servicio.titulo}}</h4>
+        <p class="text-muted">{{servicio.texto}}</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="h2 mt-3 mb-0 text-primary text-center">
+  <div>
+    Regístrate en <a class="link-primary" [routerLink]="['/registro']">este enlace</a> o en el apartado
+    <span class="fst-italic">Registrarse</span>.
+  </div>
+  <div class="pb-1">
+    Si ya tienes cuenta, inicia sesión y empieza a gestionar tus tareas.
+  </div>
+</div>
