@@ -1,6 +1,6 @@
 from flask import Flask, send_file
 from db import db
-from routes import rutas_tareas, rutas_auth
+from routes import rutas_tareas, rutas_auth, rutas_usuarios
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
@@ -15,6 +15,7 @@ def serve_image(filename):
 
 app.register_blueprint(rutas_tareas, url_prefix="/tareas")
 app.register_blueprint(rutas_auth, url_prefix="/auth")
+app.register_blueprint(rutas_usuarios, url_prefix="/usuarios")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:@localhost:3306/eletask"
 app.config["JWT_SECRET_KEY"] = "clave_token"

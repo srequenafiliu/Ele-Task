@@ -18,6 +18,7 @@ class TareaSchema(Schema):
         }
     )
     id_usuario = fields.Integer()
+    fecha = fields.DateTime()
 
 class TareaConUsuarioSchema(TareaSchema):
     usuario = fields.Nested("UsuarioSchema")

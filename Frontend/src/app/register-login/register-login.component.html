@@ -1,5 +1,13 @@
 <div class="row g-0">
-  <div class="col-md-6 p-5">
+  <div class="pt-5 px-5 d-lg-none">
+    <div class="btn-group w-100" [ngClass]="{'mb-3': opcion !== 'conservar'}" role="group">
+      <input type="radio" class="btn-check" name="btnradio" id="register" value="register" [(ngModel)]="opcion">
+      <label class="btn btn-lg btn-outline-info" for="register">Registrarse</label>
+      <input type="radio" class="btn-check" name="btnradio" id="login" value="login" [(ngModel)]="opcion">
+      <label class="btn btn-lg btn-outline-success" for="login">Iniciar sesión</label>
+    </div>
+  </div>
+  <div class="d-lg-block offset-1 col-10 offset-lg-0 col-lg-6 p-5" [ngClass]="{'d-none': opcion !== 'register'}">
     <div class="h1 text-primary fw-bold text-center mt-3">Crea tu cuenta</div>
     <form (ngSubmit)="addUser(newUser)" #form="ngForm">
       <div class="row g-0">
@@ -28,9 +36,9 @@
         </div>
         <div class="form-group form-floating my-1 col-md-6">
           <input type="password" class="form-control" [ngClass]="{'is-invalid': buscarErrores('password') !== -1,
-          'is-valid': errores.length && buscarErrores('password') === -1}" id="password" name="password" placeholder="Contraseña" [(ngModel)]="newPassword" required>
+          'is-valid': errores.length && buscarErrores('password') === -1}" id="new_password" name="new_password" placeholder="Contraseña" [(ngModel)]="newPassword" required>
           <div class="invalid-feedback"> {{errores[buscarErrores('password')]}}</div>
-          <label for="password">Contraseña<span class="text-danger">**</span></label>
+          <label for="new_password">Contraseña<span class="text-danger">**</span></label>
         </div>
         <div class="form-group form-floating my-1 col-md-6">
           <input type="password" class="form-control" [ngClass]="{'is-invalid':newUser.password !== newPassword || buscarErrores('password') !== -1,
@@ -55,23 +63,23 @@
       </div>
     </form>
   </div>
-  <div class="offset-md-1 col-md-4 p-5">
+  <div class="d-lg-block offset-1 col-10 col-lg-4 p-5" [ngClass]="{'d-none': opcion !== 'login'}">
     <div class="h1 text-primary fw-bold text-center my-4">¿Ya tienes cuenta? Inicia sesión</div>
-    <form (ngSubmit)="login()" #form="ngForm">
+    <form (ngSubmit)="login()" #formLogin="ngForm">
       <div class="row g-0 mb-2">
         <div class="offset-md-1 col-md-10 form-group form-floating my-1">
-          <input type="text" class="form-control" autocomplete="off" id="usuario" name="usuario"
-          placeholder="Usuario" [(ngModel)]="newUser.usuario" required>
-          <label for="usuario">Usuario</label>
+          <input type="text" class="form-control" autocomplete="off" id="email" name="email"
+          placeholder="Correo electrónico" [(ngModel)]="userLogin.email" required>
+          <label for="email">Correo electrónico</label>
         </div>
         <div class="offset-md-1 col-md-10 form-group form-floating my-1">
           <input type="password" class="form-control" id="password" name="password"
-          placeholder="Contraseña" [(ngModel)]="newUser.password" required>
+          placeholder="Contraseña" [(ngModel)]="userLogin.password" required>
           <label for="password">Contraseña</label>
         </div>
         <div class="offset-md-1 col-md-10 mt-4" id="alertLogin">
           <div class="d-flex flex-column align-items-center">
-            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Iniciar sesión</button>
+            <button type="submit" class="btn btn-primary" [disabled]="formLogin.invalid">Iniciar sesión</button>
           </div>
         </div>
       </div>

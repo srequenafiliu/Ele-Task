@@ -40,4 +40,4 @@ class UsuarioSchema(Schema):
     )
 
 class UsuarioConTareasSchema(UsuarioSchema):
-    tareas = fields.Nested("TareasSchema", many=True)
+    tareas = fields.Nested("TareaSchema", many=True)

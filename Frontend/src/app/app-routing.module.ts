@@ -4,13 +4,15 @@ import { HomeComponent } from './home/home.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { noUserGuard } from './guards/no-user.guard';
 import { RegisterLoginComponent } from './register-login/register-login.component';
+import { UserInfoComponent } from './user-info/user-info.component';
+import { userGuard } from './guards/user.guard';
 
 const routes: Routes = [
   { path: 'inicio', component: HomeComponent, title: "Ele-Task" },
   { path: 'usuarios', component: UserListComponent, title: "Ele-Task | Usuarios" },
   //{ path: 'necesidades-especiales', component: NeedsComponent, title: "SweetStoves | Necesidades especiales" },
   { path: 'login', component: RegisterLoginComponent, title: "Ele-Task | Inicio de sesión", canActivate: [noUserGuard] },
-  /*{ path: 'perfil-usuario', component: UserInfoComponent, title: "SweetStoves | Perfil del usuario", canActivate: [userGuard], children: [
+  { path: 'perfil-usuario', component: UserInfoComponent, title: "Ele-Task | Perfil del usuario", canActivate: [userGuard]/*, children: [
     { path: 'recetas', component: RepiceListComponent },
     { path: "nueva-receta", component: RepiceManagementComponent },
     { path: "actualizar-receta", component: RepiceManagementComponent },
@@ -19,7 +21,7 @@ const routes: Routes = [
     { path: "borrar-cuenta", component: UserDeleteComponent },
     { path: '', redirectTo: 'recetas', pathMatch: 'full' },
     { path: '**', redirectTo: 'recetas', pathMatch: 'full' }
-  ] },*/
+  ]*/ },
   { path: '', redirectTo: '/inicio', pathMatch: 'full' }, // Ruta por defecto (vacía)
   { path: '**', redirectTo: '/inicio', pathMatch: 'full' } // Ruta que no coincide con ninguna de las anteriores
 ];

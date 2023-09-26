@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { IUsuario } from '../interfaces/i-usuario';
+import { ILogin } from '../interfaces/i-login';
+import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'register-login',
@@ -7,13 +10,18 @@ import { IUsuario } from '../interfaces/i-usuario';
   styleUrls: ['./register-login.component.css']
 })
 export class RegisterLoginComponent {
+  opcion = 'register';
   newPassword = '';
   newUser = this.initUser();
   errores:string[] = [];
   usuarioExistente = false;
   correoExistente = false;
+  userLogin:ILogin = {
+    email: '',
+    password: ''
+  }
 
-  //constructor(private usersService:UsersService, private authService:AuthService) {}
+  constructor(private userService:UserService, private authService:AuthService) {}
 
   initUser(): IUsuario {
     return {
@@ -68,20 +76,14 @@ export class RegisterLoginComponent {
     this.newPassword = '';
     fileImage.value = '';
   }
-  /*userLogin:ILogin = {
-    usuario: '',
-    password: ''
-  }*/
-
-  //constructor(private usersService:UsersService, private authService:AuthService) {}
 
   login() {
-    /*this.authService.login(this.userLogin).subscribe({
+    this.authService.login(this.userLogin).subscribe({
       next:token=>{
         this.authService.setToken(token);
-        this.usersService.getUser().subscribe(u=>this.authService.setData(u));
+        this.userService.getUser().subscribe(u=>this.authService.setData(u));
       },
       error:e=>this.authService.addAlert("alertLogin", false, e.error.error, true)
-    })*/
+    })
   }
 }
