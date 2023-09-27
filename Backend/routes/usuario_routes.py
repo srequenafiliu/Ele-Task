@@ -40,15 +40,6 @@ def get_usuario_logueado():
     schema = UsuarioConTareasSchema()
     return jsonify(schema.dump(usuario))
 
-# @usuarios.get('/usuario') # type: ignore
-# @jwt_required()
-# def get_tareas_usuario():
-#     id_usuario=get_jwt_identity()
-#     select = db.select(Tarea).where(Tarea.id_usuario == id_usuario)
-#     tareas = db.session().execute(select).scalars().all()
-#     schema = TareaSchema(many=True)
-#     return jsonify(schema.dump(tareas))
-
 # @usuarios.post('') # type: ignore
 # @jwt_required()
 # @validate_json(TareaSchema)

@@ -6,30 +6,44 @@ import { TaskService } from '../services/task.service';
 import { AuthService } from '../services/auth.service';
 
 @Component({
-  selector: 'task-add',
-  templateUrl: './task-add.component.html',
-  styleUrls: ['./task-add.component.css']
+  selector: 'task-update',
+  templateUrl: './task-update.component.html',
+  styleUrls: ['./task-update.component.css']
 })
-export class TaskAddComponent implements OnInit {
+export class TaskUpdateComponent implements OnInit {
   user!:IUsuario;
   tarea!:ITarea;
   error:string|null = null;
+  id_tarea:number = 1;
+  datetime!:HTMLInputElement;
 
   constructor(private userService:UserService, private taskService:TaskService,
     private authService:AuthService) {}
 
   ngOnInit(): void {
-    this.userService.getUser().subscribe(u => {
-      this.user = u;
-      this.tarea = this.initTask();
-    });
+    this.userService.getUser().subscribe(u =>this.user = u);
+    this.getTarea()
   }
 
-  initTask():ITarea {
-    return {
-      descripcion: '',
-      realizada: false
-    };
+  getTarea() {
+    this.datetime = <HTMLInputElement>document.getElementById('datetime');
+    this.taskService.getTask(this.id_tarea).subscribe({
+      next: resp => {
+        this.tarea = resp;
+        if (resp.fecha) {
+          const fecha = new Date(resp.fecha)
+          fecha.setHours(fecha.getHours()+2)
+          this.datetime.value = resp.fecha ? fecha.toISOString().slice(0, -8) : ''
+        }
+        else this.datetime.value = ''
+      },
+      error: () => this.id_tarea = 0
+    })
+  }
+
+  borrarTarea(){
+    console.log("Todavía no hace nada");
+
   }
 
   addTask(tarea:ITarea, datetime:HTMLInputElement) {
@@ -49,7 +63,7 @@ export class TaskAddComponent implements OnInit {
   }
 
   reset(datetime:HTMLInputElement) {
-    this.tarea = this.initTask();
+    this.getTarea();
     datetime.value = "";
     this.error = null;
   }

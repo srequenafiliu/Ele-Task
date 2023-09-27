@@ -17,8 +17,9 @@ export class UserInfoComponent implements OnInit {
   opciones:{titulo:string, color:string, link:string, texto:string}[] = [
     {titulo:'Tu lista de tareas', color:'btn-outline-info', link:'tareas', texto:'Consulta y gestiona las tareas que has creado'},
     {titulo:'Nueva tarea', color:'btn-outline-success', link:'nueva-tarea', texto:'Crea una nueva tarea que se vinculará a tu cuenta'},
+    {titulo:'Administra tus tareas', color:'btn-outline-secondary', link:'administrar-tarea', texto:'Actualiza y elimina cualquiera de tus tareas'},
     {titulo:'Actualiza tu cuenta', color:'btn-outline-warning', link:'actualizar-cuenta', texto:'Actualiza los datos de tu cuenta excepto tu contraseña'},
-    {titulo:'Cambia tu contraseña', color:'btn-outline-dark', link:'actualizar-password', texto:'Cambia tu contraseña para hacer tu cuenta más segura'},
+    {titulo:'Cambia tu contraseña', color:'btn-outline-primary', link:'actualizar-password', texto:'Cambia tu contraseña para hacer tu cuenta más segura'},
     {titulo:'Borra tu cuenta', color:'btn-outline-danger', link:'borrar-cuenta', texto:'Puedes borrar tu cuenta sin compromiso, pero te echaremos de menos'}
   ];
   routerLinkActiveOptions: IsActiveMatchOptions = {
@@ -30,7 +31,10 @@ export class UserInfoComponent implements OnInit {
 
   subscription: Subscription;
   constructor(private userService:UserService, protected authService:AuthService) {
-    this.subscription = authService.getData().subscribe(u => this.user = <IUsuario>u)
+    this.subscription = authService.getData().subscribe(u => {
+      this.user = <IUsuario>u
+      if (u) this.tareas_realizadas = u.tareas ? u.tareas?.filter(t =>t.realizada).length : 0
+    })
   }
   ngOnInit(): void {
     this.userService.getUser().subscribe(u => {

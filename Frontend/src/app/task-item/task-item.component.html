@@ -1,8 +1,12 @@
-<div id="postit" class="p-3 m-auto" [ngClass]="{'bg-info': !tarea.realizada, 'bg-success': tarea.realizada}">
+<div id="postit" class="position-relative p-3 m-auto"
+[ngClass]="{'bg-info': !tarea.realizada && !timeout(), 'bg-success': tarea.realizada, 'bg-danger': !tarea.realizada && timeout()}">
   <div class="text-center"><i class="fa-solid fa-circle text-primary mx-auto"></i></div>
-  <h1 class="text-center">Tarea nueva</h1>
+  <div class="h1 text-center fw-bold">
+    Tarea <span *ngIf="url.includes('/nueva-tarea'), else listTask">nueva</span>
+    <ng-template #listTask><span>nº{{tarea.id}}</span></ng-template>
+  </div>
   <div id="descripcion">{{tarea.descripcion}}</div>
-  <div class="mt-3" *ngIf="tarea.fecha">
+  <div id="footer" class="position-absolute mt-3" *ngIf="tarea.fecha">
     <span class="h5 fw-bold">Fecha límite:</span> {{tarea.fecha | date:'longDate'}} a las {{tarea.fecha | date:'shortTime'}}
   </div>
 </div>

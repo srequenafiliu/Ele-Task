@@ -1,0 +1,59 @@
+<div class="row g-0 pb-3" *ngIf="user">
+  <div class="offset-1 col-10">
+    <h1 class="display-5 text-secondary text-center fw-bold mt-5">Administra tus tareas</h1>
+    <div class="offset-lg-3 col-lg-6">
+      <select class="form-select form-select-lg my-3" id="recetas" [disabled]="user.tareas!.length === 0" [(ngModel)]="id_tarea" (change)="getTarea()">
+        <option value="0" hidden *ngIf="user.tareas!.length, else sinTareas">Selecciona una de tus tareas para gestionarla</option>
+        <ng-template #sinTareas><option value="0">No has guardado ninguna tarea en Ele-Task</option></ng-template>
+        <option *ngFor="let tarea of user.tareas" [value]="tarea.id">{{tarea.id}}-{{tarea.descripcion}}</option>
+      </select>
+    </div>
+    <form (ngSubmit)="addTask(tarea, datetime)" #form="ngForm" *ngIf="id_tarea !== 0 && tarea, else noChoice">
+      <div class="row g-0">
+        <div class="d-flex flex-column col-lg-6 p-3">
+          <div class="form-group">
+            <label for="descripcion" class="form-label">Descripción:</label>
+            <textarea class="form-control" id="descripcion" name="descripcion" rows="3" [(ngModel)]="tarea.descripcion"
+            placeholder="Descripción con una longitud mínima de 8 caracteres y máxima de 255 caracteres"
+            [ngClass]="{'is-invalid': error && error !== '', 'is-valid': error === ''}" required maxlength="255"></textarea>
+            <div class="invalid-feedback">{{error}}</div>
+          </div>
+          <div class="d-flex form-check form-switch my-3">
+            <label class="form-check-label" for="realizada">Tarea realizada:&nbsp;</label>
+            <input class="form-check-input" type="checkbox" id="realizada" name="realizada" value="realizada" [(ngModel)]="tarea.realizada">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="fecha">Fecha límite de la tarea<span class="text-danger">*</span></span>
+            <input type="datetime-local" class="form-control" id="datetime" #datetime [min]="fechaActual()" (change)="saveDate(datetime.value)">
+          </div>
+          <div id="alertTask">
+            <div class="text-danger fw-light my-3">*Campo opcional</div>
+            <div class="row g-0">
+              <button type="button" class="btn btn-danger col-lg-5 mb-3 mb-lg-0" (click)="reset(datetime)">Reestablecer datos</button>
+              <button type="submit" class="btn btn-success offset-lg-2 col-lg-5" [disabled]="form.invalid">Añadir tarea</button>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column text-center col-lg-6 p-5 my-auto">
+          <div class="h4">
+            <div>Puedes borrar esta tarea pulsando el siguiente botón, pero ten en cuenta que no la podrás recuperar:</div>
+            <button type="button" class="btn btn-lg btn-danger mt-3" (click)="borrarTarea()">Borrar tarea</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <ng-template #noChoice>
+      <div class="row g-0 my-4 text-muted align-items-center">
+        <img class="col-lg-5" src="../../assets/error.png" alt="Elige una tarea">
+        <div class="col-lg-6 text-center">
+          <h3>Escoge una tarea para administrarla</h3>
+          <div class="fs-5">
+            Si no encuentras ninguna tarea en la lista es porque no has creado o has borrado las tareas que creaste en Ele-Task.<br>
+            No te preocupes, siempre puedes guardar una <a [routerLink]="['/perfil-usuario', 'nueva-tarea']">nueva tarea</a> desde tu
+            perfil de usuario.
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

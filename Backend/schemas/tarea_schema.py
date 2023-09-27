@@ -1,4 +1,12 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields, validate, ValidationError
+from datetime import datetime
+import pytz
+
+def validate_datetime(value:datetime):
+    value = datetime.fromisoformat(str(value))
+    value = value.replace(tzinfo=pytz.UTC)
+    if value < datetime.now(pytz.UTC):
+        raise ValidationError("La fecha no puede ser menor que la fecha actual")
 
 class TareaSchema(Schema):
     id = fields.Integer() # id es opcional
@@ -18,7 +26,10 @@ class TareaSchema(Schema):
         }
     )
     id_usuario = fields.Integer()
-    fecha = fields.DateTime()
+    fecha = fields.DateTime(
+        required=False,
+        validate=validate_datetime
+    )
 
 class TareaConUsuarioSchema(TareaSchema):
     usuario = fields.Nested("UsuarioSchema")

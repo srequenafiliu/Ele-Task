@@ -1,7 +1,7 @@
 <div class="row g-0 pb-3" *ngIf="user">
   <div class="offset-1 col-10">
     <h1 class="display-5 text-success text-center fw-bold mt-5">Nueva tarea</h1>
-    <form (ngSubmit)="addTask(tarea)" #form="ngForm">
+    <form (ngSubmit)="addTask(tarea, datetime)" #form="ngForm">
       <div class="row g-0">
         <div class="d-flex flex-column col-lg-6 p-3">
           <div class="form-group">
@@ -17,7 +17,7 @@
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text" id="fecha">Fecha límite de la tarea<span class="text-danger">*</span></span>
-            <input type="datetime-local" class="form-control" #datetime (change)="saveDate(datetime.value)">
+            <input type="datetime-local" class="form-control" #datetime [min]="fechaActual()" (change)="saveDate(datetime.value)">
           </div>
           <div id="alertTask">
             <div class="text-danger fw-light my-3">*Campo opcional</div>

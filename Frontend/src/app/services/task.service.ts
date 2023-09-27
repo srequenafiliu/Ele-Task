@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { ITarea } from '../interfaces/i-tarea';
 
 @Injectable({
@@ -10,17 +10,15 @@ export class TaskService {
   private taskURL="tareas";
   constructor(private http:HttpClient) { }
 
-  /*getRepices(pag:number, size:number, sortField:string, sortDir:string, nombre:string, tipo:string, necesidades:string, dificultad:number, id_usuario:number):Observable<{count:number, result:IRepiceDto[]}> {
-    let params:HttpParams = new HttpParams().set("pag", pag).set("size", size).set("sortField", sortField)
-    .set("sortDir", sortDir).set("nombre", nombre).set("tipo", tipo).set("necesidades", necesidades);
-    params = (dificultad != 0) ? params.set("dificultad", dificultad) : params;
-    params = (id_usuario != 0) ? params.set("id_usuario", id_usuario) : params;
-    return this.http.get<{count:number, result:IRepiceDto[]}>(this.taskURL, {params}).pipe(
+  getTasksUser(pag:number, size:number, realizada:number):Observable<{count:number, result:ITarea[]}> {
+    let params:HttpParams = new HttpParams().set("pag", pag).set("size", size);
+    params = (realizada != -1) ? params.set("realizada", realizada) : params;
+    return this.http.get<{count:number, result:ITarea[]}>(`${this.taskURL}/usuario`, {params}).pipe(
       catchError((resp: HttpErrorResponse) => throwError( () => 'Error '+resp.status+': '+resp.statusText))
     );
-  }*/
+  }
 
-  getRepice = (idReceta:number):Observable<ITarea> => this.http.get<ITarea>(`${this.taskURL}/${idReceta}`).pipe(response=>response);
+  getTask = (idTarea:number):Observable<ITarea> => this.http.get<ITarea>(`${this.taskURL}/${idTarea}`).pipe(response=>response);
 
   addTask = (newTask:ITarea):Observable<ITarea> => this.http.post<{tarea:ITarea, error?:string}>(this.taskURL, newTask).pipe(map(response => response.tarea));
 

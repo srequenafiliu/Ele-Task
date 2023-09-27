@@ -1,0 +1,62 @@
+<div class="row g-0 pb-4">
+  <div class="h1 offset-1 col-10 col-md-7 my-2 fw-bold" [ngClass]="{'text-success': realizadas, 'text-info': !realizadas}">
+    Tareas <span *ngIf="realizadas, else changeTitle">realizadas</span>:
+    <ng-template #changeTitle><span>sin realizar</span></ng-template>
+  </div>
+  <div class="offset-1 col-10 offset-md-0 col-md-4 d-flex align-items-center justify-content-center">
+    <span>Mostrar&nbsp;</span>
+    <select class="form-select w-25" [id]="'size_'+(realizadas ? 'yes' : 'no')" [(ngModel)]="size" (change)="getTareas(pag)">
+      <option class="d-sm-none" value="2">2</option>
+      <option class="d-none d-md-block" value="3">3</option>
+      <option class="d-sm-none" value="4">4</option>
+      <option class="d-none d-md-block" value="6">6</option>
+      <option class="d-sm-none" value="8">8</option>
+      <option class="d-none d-md-block" value="12">12</option>
+    </select>
+    <span>&nbsp;de {{count}} tareas</span>
+  </div>
+  <div class="offset-1 col-10 d-flex justify-content-center mt-3"
+  *ngIf="tareas && tareas.length">
+    <ul class="pagination" [ngClass]="{'pagination-lg':innerWidth>=576}">
+      <li class="page-item" [ngClass]="{'disabled': pag === 1}">
+        <a class="page-link" [routerLink]="['.']"
+          [queryParams]="getQueryParams(pag-1, nombre)">&laquo;</a>
+      </li>
+      <li class="page-item" [ngClass]="{'active': pag === P}" *ngFor="let P of pages, let i=index">
+        <a class="page-link" [ngClass]="{'opacity-75': P === '...'}" [routerLink]="['.']"
+          [queryParams]="getQueryParams(P!=='...' ? +P : +pages[i-1]+1, nombre)">{{P}}</a>
+      </li>
+      <li class="page-item" [ngClass]="{'disabled': pages[pages.length-1] === pag}">
+        <a class="page-link" [routerLink]="['.']"
+          [queryParams]="getQueryParams(pag+1, nombre)">&raquo;</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row g-0 offset-1 col-10 pb-3" *ngIf="tareas && tareas.length; else noTasks">
+  <task-item class="d-flex flex-column col-md-6 col-lg-4 p-3" *ngFor="let tarea of tareas" [tarea]="tarea"></task-item>
+</div>
+<ng-template #noTasks>
+  <div class=" row g-0 offset-1 col-10 pb-5 text-muted align-items-center">
+    <img class="offset-1 col-10 offset-lg-0 col-lg-3" src="assets/error.png" alt="Sin tareas">
+    <div class="offset-1 col-10 offset-lg-0 col-lg-9 text-center">
+      <h3 *ngIf="!tareas">¡Uy! No se han encontrado tareas</h3>
+      <div class="fs-5" *ngIf="!tareas; else realizadas ? notFound : completed">
+        Estamos experimentando fallos en nuestro servidor. Sentimos las molestias.
+        <div class="text-danger fw-bold mt-4" id="server_error_r"></div>
+      </div>
+      <ng-template #completed>
+        <h3>¡Enhorabuena! No tienes ninguna tarea pendiente</h3>
+        <div class="fs-5">
+          Añade nuevas tareas para seguir aproveychando Ele-Task.
+        </div>
+      </ng-template>
+      <ng-template #notFound>
+        <h3>Todavía no has completado ninguna tarea</h3>
+        <div class="fs-5">
+          Las tareas que marques como realizadas aparecerán aquí.
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>

@@ -19,7 +19,7 @@ export class AuthService {
   .put<{mensaje:string, error?:string}>(`${this.authURL}/change_password`, userPass).pipe(map(response=>response.mensaje));*/
 
   addUser = (newUser:IUsuario):Observable<IUsuario> => this.http
-  .post<{usuario:IUsuario, mensaje:string, error?:string}>(`${this.authURL}/registro`, newUser).pipe(map(response => response.usuario));
+  .post<{usuario:IUsuario, error?:string}>(`${this.authURL}/registro`, newUser).pipe(map(response => response.usuario));
 
   private subject = new Subject<IUsuario|null>(); // Pseudo EventEmitter
   sendData = (usuario:IUsuario|null) => this.subject.next(usuario);
@@ -43,7 +43,7 @@ export class AuthService {
   addAlert(id:string, correcto:boolean, texto:string, first:boolean){
     const div = document.getElementById(id);
     const alert = document.createElement("div");
-    alert.className = "alert alert-dismissible "+(correcto?"alert-primary":"alert-info")+" fade show";
+    alert.className = "alert alert-dismissible "+(correcto?"alert-success":"alert-info")+" fade show";
     const icon = document.createElement("i");
     icon.className = "fa-solid fa-circle-"+((correcto)?"check":"xmark");
     const close = document.createElement("button");

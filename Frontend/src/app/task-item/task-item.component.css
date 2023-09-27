@@ -1,5 +1,5 @@
 #postit{
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 991px) {
     height: 250px;
     width: 250px;
   }
@@ -16,4 +16,7 @@
   width: 100%;
   overflow-wrap: break-word;
   hyphens: auto;
+}
+.position-absolute{
+  bottom: 2.5%;
 }

@@ -19,6 +19,9 @@ import { TaskAddComponent } from './task-add/task-add.component';
 
 import localeEs from '@angular/common/locales/es';
 import {registerLocaleData} from '@angular/common';
+import { TaskViewComponent } from './task-view/task-view.component';
+import { TaskUpdateComponent } from './task-update/task-update.component';
+import { UserUpdateComponent } from './user-update/user-update.component';
 registerLocaleData(localeEs, 'es');
 
 @NgModule({
@@ -31,7 +34,10 @@ registerLocaleData(localeEs, 'es');
     UserInfoComponent,
     TaskListComponent,
     TaskItemComponent,
-    TaskAddComponent
+    TaskAddComponent,
+    TaskViewComponent,
+    TaskUpdateComponent,
+    UserUpdateComponent
   ],
   imports: [
     BrowserModule,

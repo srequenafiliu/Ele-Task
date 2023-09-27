@@ -6,11 +6,14 @@ class UsuarioSchema(Schema):
         required=True,
         error_messages={
             "required": "El usuario es obligatorio",
-            "invalid": "El campo no tiene un formato de string"
+            "invalid": "El campo no tiene un formato de string",
         },
         validate=validate.Length(min=4, error="El usuario debe tener al menos 4 caracteres"),
     )
-    imagen = fields.Str()
+    imagen = fields.Str(
+        required=False,
+        allow_none=True
+    )
 
 class UsuarioLoggedSchema(UsuarioSchema):
     nombre = fields.Str(

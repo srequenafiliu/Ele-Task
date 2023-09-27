@@ -32,13 +32,14 @@ def login():
 def register():
     json = request.json
     if (json):
-        ruta = guarda_imagen(json) if "imagen" in json else None
+        ruta = guarda_imagen(json) if "imagen" in json and json["imagen"]!=None else None
         usuario = Usuario(nombre= json["nombre"], email = json["email"], usuario = json["usuario"], password = json["password"],
-                          imagen=request.host_url+ruta if "imagen" in json else None)
+                          imagen=request.host_url+ruta if ruta!=None else None)
         try:
+            schema = UsuarioLoggedSchema()
             db.session().add(usuario)
             db.session().commit()
-            return jsonify(usuario), 201
+            return jsonify({"usuario": schema.dump(usuario)}), 201
         except IntegrityError as e:
             mensaje_error = {
                 "error": "Datos de entrada no válidos",

@@ -57,7 +57,10 @@ export class RegisterLoginComponent {
           this.userService.getUser().subscribe(u=>this.authService.setData(u))
         })
       },
-      error:e=>this.errores = (e.error.messages != undefined) ? e.error.messages : this.cleanErrores()
+      error:e=>{
+        console.log(e);
+        this.errores = (e.error.messages != undefined) ? e.error.messages : this.cleanErrores()
+      }
     });
   }
 
