@@ -9,5 +9,5 @@ class Tarea(db.Model):
     descripcion: Mapped[str] = mapped_column(String(255))  
     realizada: Mapped[bool] = mapped_column(Boolean())
     id_usuario: Mapped[int] = mapped_column(ForeignKey("usuario.id"))
-    fecha: Mapped[DateTime] = mapped_column(DateTime())
+    fecha: Mapped[DateTime] = mapped_column(DateTime(), nullable=True)
     usuario: Mapped["Usuario"] = relationship(back_populates="tareas")

@@ -1,1 +1,62 @@
-<p>user-list works!</p>
+<div class="row g-0 pt-4">
+  <div class="h1 offset-1 col-10 my-2 text-primary">Lista de usuarios:</div>
+  <div class="row g-0 offset-1 col-10" *ngIf="users && users.length; else noUsers">
+    <div class="col-md-6 col-lg-4 text-center py-3" *ngFor="let user of users">
+      <div *ngIf="user.imagen; else sinFoto">
+        <img class="rounded-circle object-fit-cover" [src]="user.imagen" [alt]="user.imagen">
+      </div>
+      <ng-template #sinFoto>
+        <span class="fa-4x d-flex mx-auto rounded-circle" [ngStyle]="{'background':'radial-gradient(#e48c8c, #e48c8c, #59668b, #59668b)'}">
+          <i class="fas fa-clipboard fa-lg fa-inverse m-auto"></i>
+        </span>
+      </ng-template>
+      <div class="h3 fw-bold mt-3">{{user.usuario}}</div>
+    </div>
+    <div class="row g-0 col-12 my-4">
+      <div class="col-md-6 mb-3 mb-md-0 order-md-2 d-flex flex-row align-items-center justify-content-center justify-content-md-end">
+        <span>Mostrar&nbsp;</span>
+        <select class="form-select w-25" id="size" [(ngModel)]="size" (change)="getUsuarios()">
+          <option class="d-sm-none" value="3">3</option>
+          <option value="6">6</option>
+          <option value="12">12</option>
+          <option class="d-none d-md-block" value="24">24</option>
+        </select>
+        <span>&nbsp;de {{count}} usuarios</span>
+      </div>
+      <div class="col-md-6 my-auto order-md-1" [ngClass]="{'text-center':innerWidth<576}">
+        ¿Quieres formar parte de nuestra comunidad? <a [routerLink]="['/registro']">Regístrate</a>
+      </div>
+    </div>
+  </div>
+  <ng-template #noUsers>
+    <div class=" row g-0 offset-1 col-10 my-4 pb-5 text-muted align-items-center">
+      <img class="offset-1 col-10 offset-lg-0 col-lg-5" src="../../assets/error.png" alt="Sin usuarios">
+      <div class="offset-1 col-10 offset-lg-0 col-lg-6 text-center">
+        <h3>¡Uy! No se han encontrado usuarios</h3>
+        <div class="fs-5" *ngIf="!users; else notFound">
+          Estamos experimentando fallos en nuestro servidor. Sentimos las molestias.
+          <div class="text-danger fw-bold mt-4" id="server_error_u"></div>
+        </div>
+        <ng-template #notFound>
+          <div class="fs-5">
+            No hay ningún usuario registrado en SweetStoves.<br>
+            <a [routerLink]="['/login']">Regístrate</a> y sé nuestro primer usuario.
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </ng-template>
+  <div class="d-flex justify-content-center" *ngIf="users && users.length">
+    <ul class="pagination" [ngClass]="{'pagination-lg':innerWidth>=576}">
+      <li class="page-item" [ngClass]="{'disabled': pag === 1}">
+        <a class="page-link" [routerLink]="['.']" [queryParams]="{'pag': (pag-1 !== 1) ? pag-1 : null}">&laquo;</a>
+      </li>
+      <li class="page-item" [ngClass]="{'active': pag === P}" *ngFor="let P of pages, let i=index">
+        <a class="page-link" [ngClass]="{'opacity-75': P === '...'}" [routerLink]="['.']" [queryParams]="{'pag': ((P!=='...' ? +P : +pages[i-1]+1) !== 1) ? P!=='...' ? +P : +pages[i-1]+1 : null}">{{P}}</a>
+      </li>
+      <li class="page-item" [ngClass]="{'disabled': pages[pages.length-1] === pag}">
+        <a class="page-link" [routerLink]="['.']" [queryParams]="{'pag': (pag+1 !== 1) ? pag+1 : null}">&raquo;</a>
+      </li>
+    </ul>
+  </div>
+</div>

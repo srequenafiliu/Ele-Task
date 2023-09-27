@@ -27,18 +27,17 @@ export class AuthService {
 
   getToken = () => localStorage.getItem('token_eletask') ? localStorage.getItem('token_eletask') : null;
   setToken = (token:string) => localStorage.setItem('token_eletask', token);
-  /*expiredToken = (token:string|null) => token && new Date(jwtDecode<{exp:number}>(token).exp*1000) < new Date()
-  Si el token tuviese fecha de caducidad, se usaría esta función y, si devolviera true, se debería llamar a logout()*/
 
   setData(usuario:IUsuario) {
     this.sendData(usuario);
     this.router.navigate(['/perfil-usuario']);
   }
 
-  logout(){
-    localStorage.removeItem('token');
+  logout(forzado:boolean){
+    localStorage.removeItem('token_eletask');
     this.sendData(null)
-    this.router.navigate(['/inicio'])
+    this.router.navigate([forzado ? '/login' : '/inicio'])
+    if (forzado) this.addAlert("alertLogin", false, "Su acceso ha expirado, inicie sesión de nuevo", true);
   }
 
   addAlert(id:string, correcto:boolean, texto:string, first:boolean){

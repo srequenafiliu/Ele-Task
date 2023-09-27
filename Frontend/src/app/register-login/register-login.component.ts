@@ -13,9 +13,7 @@ export class RegisterLoginComponent {
   opcion = 'register';
   newPassword = '';
   newUser = this.initUser();
-  errores:string[] = [];
-  usuarioExistente = false;
-  correoExistente = false;
+  errores = this.cleanErrores();
   userLogin:ILogin = {
     email: '',
     password: ''
@@ -25,13 +23,20 @@ export class RegisterLoginComponent {
 
   initUser(): IUsuario {
     return {
-      id: 0,
       nombre: '',
       email: '',
       usuario:'',
       password: '',
-      imagen: null,
-      tareas: []
+      imagen: null
+    };
+  }
+
+  cleanErrores():{email:string[], nombre:string[], password:string[], usuario:string[]} {
+    return {
+      email: [],
+      nombre: [],
+      password: [],
+      usuario: []
     };
   }
 
@@ -44,35 +49,21 @@ export class RegisterLoginComponent {
     }
   }
 
-  addUser(newUser:IUsuario) {
-    /*this.authService.addUser(newUser).subscribe({
+  addUser() {
+    this.authService.addUser(this.newUser).subscribe({
       next:()=>{
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.authService.login({usuario: newUser.usuario, password: newUser.password!
-        }).subscribe(token=>{
+        this.authService.login({email: this.newUser.email, password: this.newUser.password}).subscribe(token=>{
           this.authService.setToken(token);
-          this.usersService.getUser().subscribe(u=>this.authService.setData(u))
+          this.userService.getUser().subscribe(u=>this.authService.setData(u))
         })
       },
-      error:e=>{
-        console.log(e.error.error);
-        this.errores = (e.error.errores != undefined) ? e.error.errores : [];
-        this.usuarioExistente = (e.error.error != undefined) ? e.error.error.includes("(usuario)") : false;
-        this.correoExistente = (e.error.error != undefined) ? e.error.error.includes("(correo)") : false;
-      }
-    });*/
-  }
-
-  buscarErrores(name:string):number {
-    for (const i in this.errores) if (this.errores[i].includes(name)) return +i;
-    return -1;
+      error:e=>this.errores = (e.error.messages != undefined) ? e.error.messages : this.cleanErrores()
+    });
   }
 
   reset(fileImage:HTMLInputElement){
     this.newUser = this.initUser();
-    this.errores = [];
-    this.usuarioExistente = false;
-    this.correoExistente = false;
+    this.errores = this.cleanErrores();
     this.newPassword = '';
     fileImage.value = '';
   }

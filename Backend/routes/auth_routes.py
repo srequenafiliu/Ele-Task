@@ -1,10 +1,11 @@
 from flask import Blueprint, jsonify, request
 from db import db
 from models import Usuario
-from schemas import validate_json, UsuarioSchema
+from schemas import validate_json, UsuarioLoggedSchema
 from flask_jwt_extended import create_access_token
 from PIL import Image
 import io, base64, os
+from sqlalchemy.exc import IntegrityError
 
 auth = Blueprint('auth', __name__)
 
@@ -27,13 +28,24 @@ def login():
         return jsonify({"accessToken": token})
 
 @auth.post('/registro') # type: ignore
-@validate_json(UsuarioSchema)
+@validate_json(UsuarioLoggedSchema)
 def register():
     json = request.json
     if (json):
-        ruta = guarda_imagen(json) if json["imagen"] else None
+        ruta = guarda_imagen(json) if "imagen" in json else None
         usuario = Usuario(nombre= json["nombre"], email = json["email"], usuario = json["usuario"], password = json["password"],
-                          imagen=request.host_url+ruta if json["imagen"] else None)
-        db.session().add(usuario)
-        db.session().commit()
-        return jsonify(usuario), 201
+                          imagen=request.host_url+ruta if "imagen" in json else None)
+        try:
+            db.session().add(usuario)
+            db.session().commit()
+            return jsonify(usuario), 201
+        except IntegrityError as e:
+            mensaje_error = {
+                "error": "Datos de entrada no válidos",
+                "messages": {}
+            }
+            if 'usuario.email' in str(e):
+                mensaje_error['messages']['email'] = ['Este correo ya está registrado']
+            elif 'usuario.usuario' in str(e):
+                mensaje_error['messages']['usuario'] = ['Este usuario ya existe']
+            return jsonify(mensaje_error), 500

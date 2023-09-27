@@ -11,3 +11,7 @@ body{
 .text-rose {
   color: #e48c8c !important;
 }
+
+.form-floating>label {
+  width: 100%;
+}

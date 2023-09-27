@@ -34,7 +34,7 @@ def get_tareas_usuario():
 def add_tareas():
     json = request.json
     if (json):
-        tarea = Tarea(descripcion=json["descripcion"], realizada=json["realizada"], id_usuario=get_jwt_identity())
+        tarea = Tarea(descripcion=json["descripcion"], realizada=json["realizada"], id_usuario=get_jwt_identity(), fecha=json["fecha"])
         db.session().add(tarea)
         db.session().commit()
         schema = TareaSchema()

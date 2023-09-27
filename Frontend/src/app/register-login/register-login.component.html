@@ -9,40 +9,38 @@
   </div>
   <div class="d-lg-block offset-1 col-10 offset-lg-0 col-lg-6 p-5" [ngClass]="{'d-none': opcion !== 'register'}">
     <div class="h1 text-primary fw-bold text-center mt-3">Crea tu cuenta</div>
-    <form (ngSubmit)="addUser(newUser)" #form="ngForm">
+    <form (ngSubmit)="addUser()" #form="ngForm">
       <div class="row g-0">
         <div class="h3 text-rose text-center text-decoration-underline mb-3">Datos personales</div>
         <div class="form-group form-floating my-1 col-md-6">
-          <input type="text" class="form-control" autocomplete="off" id="nombre" name="nombre" [ngClass]="{'is-invalid': buscarErrores('nombre') !== -1,
-          'is-valid': errores.length && buscarErrores('nombre') === -1}" placeholder="Nombre" [(ngModel)]="newUser.nombre" required>
-          <div class="invalid-feedback">{{errores[buscarErrores('nombre')]}}</div>
+          <input type="text" class="form-control" autocomplete="off" id="nombre" name="nombre" placeholder="Nombre" [(ngModel)]="newUser.nombre"
+          [ngClass]="{'is-invalid': errores.nombre && errores.nombre.length, 'is-valid': !errores.nombre}" required>
+          <div class="invalid-feedback" *ngFor="let error of errores.nombre">{{error}}</div>
           <label for="nombre">Nombre<span class="text-danger">*</span></label>
         </div>
         <div class="form-group form-floating my-1 col-md-6">
-          <input type="email" class="form-control" autocomplete="off" [ngClass]="{'is-invalid': buscarErrores('correo') !== -1 || correoExistente,
-          'is-valid': errores.length && buscarErrores('correo') === -1 && !correoExistente}" id="correo" name="correo" placeholder="Correo electrónico" [(ngModel)]="newUser.email" required>
-          <div class="invalid-feedback" *ngIf="!correoExistente, else correoRepetido">{{errores[buscarErrores('correo')]}}</div>
-          <ng-template #correoRepetido><div class="invalid-feedback">Este correo ya está registrado</div></ng-template>
+          <input type="email" class="form-control" autocomplete="off" id="correo" name="correo" placeholder="Correo electrónico"
+          [ngClass]="{'is-invalid': errores.email && errores.email.length, 'is-valid': !errores.email}" [(ngModel)]="newUser.email" required>
+          <div class="invalid-feedback" *ngFor="let error of errores.email">{{error}}</div>
           <label for="correo">Correo electrónico<span class="text-danger">*</span></label>
         </div>
 
         <div class="h3 text-rose text-center text-decoration-underline mt-2 mb-3">Datos de la cuenta</div>
         <div class="form-group form-floating my-1 offset-md-3 col-md-6">
-          <input type="text" class="form-control" autocomplete="off" [ngClass]="{'is-invalid': buscarErrores('usuario') !== -1 || usuarioExistente,
-          'is-valid': errores.length && buscarErrores('usuario') === -1 && !usuarioExistente}" id="usuario" name="usuario" placeholder="Usuario" [(ngModel)]="newUser.usuario" required>
-          <div class="invalid-feedback" *ngIf="!usuarioExistente, else usuarioRepetido">{{errores[buscarErrores('usuario')]}}</div>
-          <ng-template #usuarioRepetido><div class="invalid-feedback">Este usuario ya existe</div></ng-template>
+          <input type="text" class="form-control" autocomplete="off" id="usuario" name="usuario" placeholder="Usuario" [(ngModel)]="newUser.usuario"
+          [ngClass]="{'is-invalid': errores.usuario && errores.usuario.length, 'is-valid': !errores.usuario}" required>
+          <div class="invalid-feedback" *ngFor="let error of errores.usuario">{{error}}</div>
           <label for="usuario">Usuario<span class="text-danger">*</span></label>
         </div>
         <div class="form-group form-floating my-1 col-md-6">
-          <input type="password" class="form-control" [ngClass]="{'is-invalid': buscarErrores('password') !== -1,
-          'is-valid': errores.length && buscarErrores('password') === -1}" id="new_password" name="new_password" placeholder="Contraseña" [(ngModel)]="newPassword" required>
-          <div class="invalid-feedback"> {{errores[buscarErrores('password')]}}</div>
+          <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Contraseña" [(ngModel)]="newPassword"
+          [ngClass]="{'is-invalid': errores.password && errores.password.length, 'is-valid': !errores.password}" required>
+          <div class="invalid-feedback" *ngFor="let error of errores.password">{{error}}</div>
           <label for="new_password">Contraseña<span class="text-danger">**</span></label>
         </div>
         <div class="form-group form-floating my-1 col-md-6">
-          <input type="password" class="form-control" [ngClass]="{'is-invalid':newUser.password !== newPassword || buscarErrores('password') !== -1,
-          'is-valid':newUser.password === newPassword && newPassword}" id="password2" name="password2" placeholder="Confirma la contraseña" [(ngModel)]="newUser.password" required [pattern]="newPassword">
+          <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirma la contraseña" [(ngModel)]="newUser.password" [pattern]="newPassword"
+          [ngClass]="{'is-invalid':newUser.password !== newPassword || (errores.password && errores.password.length), 'is-valid':newUser.password === newPassword && newPassword}" required>
           <div class="invalid-feedback" *ngIf="newUser.password !== newPassword">Las contraseñas no coinciden</div>
           <label for="password2">Confirma la contraseña<span class="text-danger">**</span></label>
         </div>

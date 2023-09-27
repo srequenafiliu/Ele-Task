@@ -20,7 +20,7 @@
             <a class="d-flex nav-link" [routerLink]="['/perfil-usuario']" [routerLinkActive]="['active']" [title]="user.usuario">
               <img class="rounded-circle object-fit-cover" [src]="user.imagen" [alt]="user.usuario" *ngIf="user.imagen, else sinFoto">
               <ng-template #sinFoto>
-                <div class="d-flex bg-secondary rounded-circle">
+                <div class="d-flex rounded-circle" [ngStyle]="{'background':'radial-gradient(#e48c8c, #e48c8c, #59668b, #59668b, #59668b)'}">
                   <span class="h3 text-white fw-bold m-auto">{{user.usuario[0].toUpperCase()}}</span>
                 </div>
               </ng-template>

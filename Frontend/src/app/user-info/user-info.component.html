@@ -1,1 +1,55 @@
-<p>user-info works!</p>
+<div class="row g-0" *ngIf="user">
+  <div class="row g-0 offset-1 col-10">
+    <h1 class="display-3 text-primary text-center fw-bold mt-5">Perfil de {{user.usuario}}</h1>
+    <div class="card border-primary offset-md-1 col-md-10 offset-lg-0 col-lg-7 my-3">
+      <div class="row g-0 card-body">
+        <div class="text-center my-auto">
+          <div class="h1 text-rose fw-bold" [ngClass]="{'display-6':movil, 'display-4':!movil}">{{user.usuario}}</div>
+          <div class="fw-bold mt-3" [ngClass]="{'h6':movil, 'h4':!movil}">{{user.nombre}}</div>
+        </div>
+        <img class="border border-primary rounded object-fit-cover" [src]="user.imagen" [alt]="user.imagen"
+          *ngIf="user.imagen; else sinFoto">
+        <ng-template #sinFoto>
+          <span class="fa-4x d-flex rounded" [ngStyle]="{'background':'radial-gradient(#e48c8c, #e48c8c, #59668b, #59668b)'}">
+            <i class="fas fa-clipboard fa-xl fa-inverse m-auto"></i>
+          </span>
+        </ng-template>
+        <div class="row g-0 card-text mt-4">
+          <div class="h4 col-md-6 mt-md-2 my-lg-3 text-secondary fw-bold">
+            <span class="text-rose">Tareas creadas: </span>{{user.tareas!.length}}
+          </div>
+          <div class="h4 col-md-6 my-2 my-lg-3 text-secondary fw-bold">
+            <span class="text-rose">Tareas realizadas: </span>{{tareas_realizadas}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row g-0 col-lg-5 my-3 text-end">
+      <div class="col-7 col-md-6 col-lg-12 my-auto">
+        <button class="btn btn-primary" [ngClass]="{'btn-lg':!movil}" type="button" data-bs-toggle="offcanvas"
+          data-bs-target="#opciones" aria-controls="opciones">
+          ¿Quieres hacer algo hoy?
+        </button>
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="opciones" aria-labelledby="opcionesLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-primary" id="opcionesLabel">Menú de usuario</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body text-start">
+            <div class="mb-3">
+              {{user.usuario}}, tus aportes siempre son bienvenidos. Elige cualquiera de las opciones que se muestran a
+              continuación:
+            </div>
+            <a type="button" class="btn offset-1 col-6 my-2" [ngClass]="boton.color" placement="right"
+              [ngbTooltip]="boton.texto" [routerLink]="['.', boton.link]" [routerLinkActive]="['active']"
+              [routerLinkActiveOptions]="routerLinkActiveOptions" *ngFor="let boton of opciones">{{boton.titulo}}</a>
+          </div>
+        </div>
+      </div>
+      <div class="offset-1 col-4 offset-md-0 col-md-6 col-lg-12 my-auto">
+        <button class="btn btn-warning" [ngClass]="{'btn-lg':!movil}" type="button" (click)="authService.logout(false)">Cierra sesión</button>
+      </div>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

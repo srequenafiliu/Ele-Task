@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +13,13 @@ import { BaseUrlInterceptor } from './interceptors/base-url.interceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { TaskListComponent } from './task-list/task-list.component';
+import { TaskItemComponent } from './task-item/task-item.component';
+import { TaskAddComponent } from './task-add/task-add.component';
+
+import localeEs from '@angular/common/locales/es';
+import {registerLocaleData} from '@angular/common';
+registerLocaleData(localeEs, 'es');
 
 @NgModule({
   declarations: [
@@ -21,7 +28,10 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     HomeComponent,
     UserListComponent,
     RegisterLoginComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    TaskListComponent,
+    TaskItemComponent,
+    TaskAddComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +50,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
       provide : HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi   : true,
-    }
+    },
+    {provide: LOCALE_ID, useValue: "es"}
   ],
   bootstrap: [AppComponent]
 })

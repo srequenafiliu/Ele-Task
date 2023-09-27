@@ -1,0 +1,35 @@
+.rounded {
+  z-index: 1;
+  width: 200px;
+  height: 200px;
+  @media screen and (max-width:767px) {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+.card-body > .text-center {
+  width: calc(100% - 200px);
+  @media screen and (max-width:767px) {
+    width: calc(100% - 90px)
+  }
+}
+
+.card-body {
+  position: relative;
+}
+
+.card-body::before {
+  content: "";
+  background-image: url('../../assets/logo.png');
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.15;
+  top: 1rem;
+  left: 1rem;
+  bottom: 1rem;
+  right: 1rem;
+  position: absolute;
+  z-index: 0;
+}
