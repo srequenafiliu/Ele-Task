@@ -47,3 +47,23 @@ class UsuarioLoggedSchema(UsuarioSchema):
 
 class UsuarioConTareasSchema(UsuarioLoggedSchema):
     tareas = fields.Nested("TareaSchema", many=True)
+
+class UsuarioPasswordSchema(Schema):
+    password = fields.Str(
+        required=True,
+        error_messages={
+            "required": "La contraseña actual es obligatoria",
+            "invalid": "El campo no tiene un formato de string"
+        },
+        validate=validate.Regexp(regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$",
+                                 error="La contraseña actual no tiene un formato válido"),
+    )
+    new_password = fields.Str(
+        required=True,
+        error_messages={
+            "required": "La nueva contraseña es obligatoria",
+            "invalid": "El campo no tiene un formato de string"
+        },
+        validate=validate.Regexp(regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$",
+                                 error="La nueva contraseña no tiene un formato válido"),
+    )

@@ -53,10 +53,7 @@ export class UserUpdateComponent implements OnInit {
         fileImage.value = '';
         this.authService.addAlert("alertUpdate", true, "Datos actualizados correctamente", false);
       },
-      error:e=>{
-        console.log(e);
-        this.errores = (e.error.messages != undefined) ? e.error.messages : this.cleanErrores()
-      }
+      error:e=>this.errores = (e.error.messages != undefined) ? e.error.messages : this.cleanErrores()
     });
   }
 

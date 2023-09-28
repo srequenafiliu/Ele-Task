@@ -20,6 +20,7 @@ import { TaskItemComponent } from './task-item/task-item.component';
 import { TaskAddComponent } from './task-add/task-add.component';
 import { TaskManagementComponent } from './task-management/task-management.component';
 import { UserUpdateComponent } from './user-update/user-update.component';
+import { UserPasswordComponent } from './user-password/user-password.component';
 import { UserDeleteComponent } from './user-delete/user-delete.component';
 
 import localeEs from '@angular/common/locales/es';
@@ -41,6 +42,7 @@ registerLocaleData(localeEs, 'es');
     TaskViewComponent,
     TaskManagementComponent,
     UserUpdateComponent,
+    UserPasswordComponent,
     UserDeleteComponent
   ],
   imports: [

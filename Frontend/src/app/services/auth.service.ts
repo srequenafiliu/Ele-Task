@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, Subject, map } from 'rxjs';
 import { ILogin } from '../interfaces/i-login';
 import { IUsuario } from '../interfaces/i-usuario';
+import { IPassword } from '../interfaces/i-password';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ export class AuthService {
   login = (userLogin:ILogin):Observable<string> => this.http
   .post<{accessToken:string, error?:string}>(`${this.authURL}/login`, userLogin).pipe(map(response=>response.accessToken));
 
-  /*changePassword = (userPass:IPasswordDto):Observable<string> => this.http
-  .put<{mensaje:string, error?:string}>(`${this.authURL}/change_password`, userPass).pipe(map(response=>response.mensaje));*/
+  changePassword = (userPass:IPassword):Observable<string> => this.http
+  .put<{mensaje:string, error?:string}>(`${this.authURL}/change_password`, userPass).pipe(map(response=>response.mensaje));
 
   addUser = (newUser:IUsuario):Observable<IUsuario> => this.http
   .post<{usuario:IUsuario, error?:string}>(`${this.authURL}/registro`, newUser).pipe(map(response => response.usuario));

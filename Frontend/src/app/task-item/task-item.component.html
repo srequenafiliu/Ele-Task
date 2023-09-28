@@ -1,8 +1,8 @@
 <div id="postit" class="position-relative p-3 m-auto"
-[ngClass]="{'bg-info': !tarea.realizada && !timeout(), 'bg-success': tarea.realizada, 'bg-danger': !tarea.realizada && timeout()}">
+[ngClass]="{'bg-info': !tarea.realizada && !timeout(), 'bg-success': tarea.realizada, 'bg-danger': !tarea.realizada && (timeout() || nota_pass)}">
   <div class="text-center"><i class="fa-solid fa-circle text-primary mx-auto"></i></div>
   <div class="h1 text-center fw-bold">
-    Tarea <span *ngIf="url.includes('/nueva-tarea'), else listTask">nueva</span>
+    Tarea <span *ngIf="url.includes('/nueva-tarea') || !tarea.id, else listTask">nueva</span>
     <ng-template #listTask><span>nº{{tarea.id}}</span></ng-template>
   </div>
   <div id="descripcion">{{tarea.descripcion}}</div>

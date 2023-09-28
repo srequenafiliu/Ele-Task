@@ -11,6 +11,7 @@ import { TaskListComponent } from './task-list/task-list.component';
 import { TaskAddComponent } from './task-add/task-add.component';
 import { TaskManagementComponent } from './task-management/task-management.component';
 import { UserUpdateComponent } from './user-update/user-update.component';
+import { UserPasswordComponent } from './user-password/user-password.component';
 import { UserDeleteComponent } from './user-delete/user-delete.component';
 
 const routes: Routes = [
@@ -23,7 +24,7 @@ const routes: Routes = [
     { path: "administrar-tarea", component: TaskManagementComponent },
     { path: "nueva-tarea", component: TaskAddComponent },
     { path: "actualizar-cuenta", component: UserUpdateComponent },
-    //{ path: "actualizar-password", component: UserPasswordComponent },
+    { path: "actualizar-password", component: UserPasswordComponent },
     { path: "borrar-cuenta", component: UserDeleteComponent },
     { path: '', redirectTo: 'tareas', pathMatch: 'full' },
     { path: '**', redirectTo: 'tareas', pathMatch: 'full' }

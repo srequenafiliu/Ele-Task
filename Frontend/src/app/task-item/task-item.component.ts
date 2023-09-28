@@ -8,6 +8,7 @@ import { ITarea } from '../interfaces/i-tarea';
 })
 export class TaskItemComponent {
   @Input() tarea!:ITarea;
+  @Input() nota_pass:boolean = false;
   url:string = window.location.pathname
   timeout = ()  => this.tarea.fecha && new Date(this.tarea.fecha) < new Date();
 }

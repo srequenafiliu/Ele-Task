@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request
 from db import db
 from models import Usuario
-from schemas import validate_json, UsuarioLoggedSchema
-from flask_jwt_extended import create_access_token
+from schemas import validate_json, UsuarioLoggedSchema, UsuarioPasswordSchema
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from PIL import Image
 import io, base64, os
 from sqlalchemy.exc import IntegrityError
@@ -50,3 +50,17 @@ def register():
             elif 'usuario.usuario' in str(e):
                 mensaje_error['messages']['usuario'] = ['Este usuario ya existe']
             return jsonify(mensaje_error), 500
+
+@auth.put('/change_password') # type: ignore
+@jwt_required()
+@validate_json(UsuarioPasswordSchema)
+def change_password_usuario():
+    id_usuario = get_jwt_identity()
+    usuario = db.get_or_404(Usuario, id_usuario)
+    json = request.json
+    if (json):
+        if usuario.password != json["password"]:
+            return jsonify({"error": "Datos de entrada no válidos", "messages": {"password": ["Contraseña incorrecta"]}}), 403
+        usuario.password = json["new_password"]
+        db.session().commit()
+        return jsonify({"mensaje": "La contraseña se ha modificado correctamente"})
