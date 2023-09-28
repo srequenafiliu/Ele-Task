@@ -12,4 +12,4 @@ class Usuario(db.Model):
     usuario: Mapped[str] = mapped_column(String(255), unique=True)
     password: Mapped[str] = mapped_column(String(255))
     imagen: Mapped[str] = mapped_column(String(255), nullable=True)
-    tareas: Mapped[List["Tarea"]] = relationship(back_populates="usuario")
+    tareas: Mapped[List["Tarea"]] = relationship(back_populates="usuario", cascade="all, delete-orphan")

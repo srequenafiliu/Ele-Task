@@ -33,7 +33,7 @@ export class TaskAddComponent implements OnInit {
   }
 
   addTask(tarea:ITarea, datetime:HTMLInputElement) {
-    if (tarea.fecha) tarea.fecha.setHours(tarea.fecha.getHours()+2)
+    if (tarea.fecha) tarea.fecha.setMinutes(tarea.fecha.getMinutes()-tarea.fecha.getTimezoneOffset())
     this.taskService.addTask(tarea).subscribe({
       next:t=>{
         this.user.tareas?.push(t);
@@ -41,10 +41,7 @@ export class TaskAddComponent implements OnInit {
         this.authService.addAlert("alertTask", true, "Tarea creada correctamente", true);
         this.reset(datetime)
       },
-      error:e=>{
-        console.log(tarea.fecha);
-        this.error = (e.error.messages != undefined) ? e.error.messages.descripcion[0] : '';
-      }
+      error:e=>this.error = (e.error.messages != undefined) ? e.error.messages.descripcion[0] : ''
     });
   }
 
@@ -60,7 +57,7 @@ export class TaskAddComponent implements OnInit {
 
   fechaActual():string {
     let fecha_actual:Date = new Date()
-    fecha_actual.setHours(fecha_actual.getHours()+2)
+    fecha_actual.setMinutes(fecha_actual.getMinutes()-fecha_actual.getTimezoneOffset())
     return fecha_actual.toISOString().slice(0, -8);
   }
 }

@@ -6,9 +6,15 @@ from schemas import validate_json, TareaSchema, TareaConUsuarioSchema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from urllib.parse import urlencode
 from datetime import datetime
-import pytz
 
 tareas = Blueprint('tareas', __name__)
+
+@tareas.get('') # type: ignore
+def get_tareas():
+    select = db.select(Tarea)
+    tareas = db.session().execute(select).scalars().all()
+    schema = TareaSchema(many=True)
+    return jsonify(schema.dump(tareas))
 
 @tareas.get('/<int:id>')
 @jwt_required()
@@ -58,7 +64,6 @@ def add_tarea():
         fecha = None
         if "fecha" in json:
             fecha = datetime.fromisoformat(str(json["fecha"]))
-            fecha = fecha.replace(tzinfo=pytz.UTC)
         tarea = Tarea(descripcion=json["descripcion"], realizada=json["realizada"], id_usuario=get_jwt_identity(), fecha=fecha)
         db.session().add(tarea)
         db.session().commit()
@@ -77,9 +82,13 @@ def update_tareas(id: int):
     if (json):
         tarea.descripcion = json["descripcion"]
         tarea.realizada = json["realizada"]
+        if not "fecha" in json:
+            tarea.fecha = None
+        else:
+            tarea.fecha = datetime.fromisoformat(str(json["fecha"]))
         db.session().commit()
         schema = TareaSchema()
-        return jsonify(schema.dump(tarea))
+        return jsonify({'tarea': schema.dump(tarea)})
     
 @tareas.delete('/<int:id>')
 @jwt_required()

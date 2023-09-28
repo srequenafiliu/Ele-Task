@@ -29,7 +29,7 @@
           </li>
         </ul>
       </ng-template>
-      <ul class="navbar-nav order-lg-1" [ngClass]="{'me-auto': !user}">
+      <ul class="navbar-nav order-lg-1 me-auto">
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/inicio']" [routerLinkActive]="['active']">Inicio</a>
         </li>
@@ -37,13 +37,9 @@
           <a class="nav-link" [routerLink]="['/usuarios']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="routerLinkActiveOptions">Usuarios</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/estadisticas']" [routerLinkActive]="['active']">Estadísticas</a>
+          <a class="nav-link" [routerLink]="['/info-tareas']" [routerLinkActive]="['active']">Información sobre las tareas</a>
         </li>
       </ul>
-      <form class="d-flex order-lg-2 ms-lg-4 me-auto" (ngSubmit)="searchTask()" #form="ngForm" *ngIf="user">
-        <input class="form-control me-sm-2" type="search" autocomplete="off" name="search" placeholder="Buscar tarea.." required [(ngModel)]="search">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit" [disabled]="form.invalid">Buscar</button>
-      </form>
     </div>
   </div>
 </nav>

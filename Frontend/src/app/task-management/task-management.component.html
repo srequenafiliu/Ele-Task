@@ -8,7 +8,7 @@
         <option *ngFor="let tarea of user.tareas" [value]="tarea.id">{{tarea.id}}-{{tarea.descripcion}}</option>
       </select>
     </div>
-    <form (ngSubmit)="addTask(tarea, datetime)" #form="ngForm" *ngIf="id_tarea !== 0 && tarea, else noChoice">
+    <form (ngSubmit)="updateTask(tarea)" #form="ngForm" *ngIf="id_tarea !== 0 && tarea, else noChoice">
       <div class="row g-0">
         <div class="d-flex flex-column col-lg-6 p-3">
           <div class="form-group">
@@ -24,13 +24,14 @@
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text" id="fecha">Fecha límite de la tarea<span class="text-danger">*</span></span>
-            <input type="datetime-local" class="form-control" id="datetime" #datetime [min]="fechaActual()" (change)="saveDate(datetime.value)">
+            <input type="datetime-local" class="form-control" id="datetime" #datetime [min]="fechaActual()"
+            [value]="valor_datetime" (change)="saveDate(datetime.value)">
           </div>
           <div id="alertTask">
             <div class="text-danger fw-light my-3">*Campo opcional</div>
             <div class="row g-0">
               <button type="button" class="btn btn-danger col-lg-5 mb-3 mb-lg-0" (click)="reset(datetime)">Reestablecer datos</button>
-              <button type="submit" class="btn btn-success offset-lg-2 col-lg-5" [disabled]="form.invalid">Añadir tarea</button>
+              <button type="submit" class="btn btn-success offset-lg-2 col-lg-5" [disabled]="form.invalid">Actualizar tarea</button>
             </div>
           </div>
         </div>

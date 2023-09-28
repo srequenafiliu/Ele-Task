@@ -15,20 +15,18 @@ export class TaskViewComponent implements OnInit {
   pag!:number;
   innerWidth = window.innerWidth;
   size = (this.innerWidth>960) ? 3 : 2;
-  nombre!:string;
   count!:number;
   tareas!:ITarea[];
   pages!:(string|number)[];
   @Input() realizadas!:number;
 
   constructor(private taskService:TaskService, private authService:AuthService,
-    /*private userService:UserService, */private route:ActivatedRoute, private router:Router) {
+    private route:ActivatedRoute, private router:Router) {
     this.route.queryParams.subscribe(params => {
       this.pag_true = (+params["pag_true"]) ? +params["pag_true"] : 1;
       this.pag_false = (+params["pag_false"]) ? +params["pag_false"] : 1;
       this.pag = this.realizadas == 1 ? this.pag_true : this.pag_false;
-      this.nombre = (params["nombre"]) ? params["nombre"] : '';
-      if (this.realizadas) this.getTareas(this.pag);
+      if (this.realizadas != undefined) this.getTareas(this.pag);
     })
   }
   ngOnInit(): void {
@@ -57,15 +55,9 @@ export class TaskViewComponent implements OnInit {
     }
   }
 
-  getQueryParams(pagNum:number, nombre:string) {
+  getQueryParams(pagNum:number) {
     if (this.realizadas) this.pag_true = pagNum
     else this.pag_false = pagNum
-    return {'pag_true': (this.pag_true !== 1) ? this.pag_true : null, 'pag_false': (this.pag_false !== 1) ? this.pag_false : null,
-    'nombre': (nombre !== '') ? nombre : null}
-  }
-
-  borrarReceta() {
-    //if (this.pag != 1 && this.repices.length == 1) this.filter(this.nombre, this.tipo, this.necesidades, this.dificultad);
-    this.getTareas(this.pag);
+    return {'pag_true': (this.pag_true !== 1) ? this.pag_true : null, 'pag_false': (this.pag_false !== 1) ? this.pag_false : null}
   }
 }

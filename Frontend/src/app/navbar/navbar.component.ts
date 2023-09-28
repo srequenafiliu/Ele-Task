@@ -12,7 +12,6 @@ import { UserService } from '../services/user.service';
 })
 export class NavbarComponent implements OnInit {
   user:IUsuario|null = null;
-  search = "";
   routerLinkActiveOptions: IsActiveMatchOptions = {
     matrixParams: 'ignored',
     queryParams: 'ignored',
@@ -27,11 +26,6 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.getToken()) this.userService.getUser().subscribe(u => this.user = u)
-  }
-
-  searchTask() {
-    this.router.navigate(["/recetas"], {queryParams: {nombre: this.search}});
-    this.search = "";
   }
 
 }

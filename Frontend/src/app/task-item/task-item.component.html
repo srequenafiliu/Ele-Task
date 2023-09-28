@@ -7,6 +7,6 @@
   </div>
   <div id="descripcion">{{tarea.descripcion}}</div>
   <div id="footer" class="position-absolute mt-3" *ngIf="tarea.fecha">
-    <span class="h5 fw-bold">Fecha límite:</span> {{tarea.fecha | date:'longDate'}} a las {{tarea.fecha | date:'shortTime'}}
+    <span class="h5 fw-bold">Fecha límite:</span>{{tarea.fecha | date:'longDate'}} a las {{tarea.fecha | date:'shortTime'}}
   </div>
 </div>

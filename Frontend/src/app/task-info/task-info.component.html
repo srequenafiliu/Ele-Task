@@ -1,0 +1,20 @@
+<div class="row g-0 pt-4 pb-3">
+  <div class="h1 offset-1 col-10 my-2 text-primary">Las tareas que crees en tu perfil se podrán ver de tres maneras:</div>
+  <div class="row g-0 offset-1 col-10 mt-2 mb-3">
+    <task-item class="d-flex flex-column col-md-6 col-lg-4 p-3" *ngFor="let tarea of tasks_demo" [tarea]="tarea"></task-item>
+  </div>
+  <div class="offset-1 col-10 offset-lg-0 col-lg-8 mt-3 my-lg-auto p-lg-5 text-primary text-center order-lg-2">
+    <div class="h1 fw-bold">
+      <a [routerLink]="['/login']">Únete</a> a Ele-Task y añade tus tareas
+    </div>
+    <div class="h2">
+      <span class="fw-bold text-rose">Tareas creadas hasta el momento:</span> {{tareas}} tareas
+    </div>
+    <div class="h3 px-lg-5">
+      Puedes consultar en el gráfico todas las tareas que se han guardado en Ele-Task
+    </div>
+  </div>
+  <div class="offset-1 col-10 offset-md-3 col-md-6 offset-lg-1 col-lg-3 mt-lg-4 text-center">
+    <canvas id="canvas">{{chart}}</canvas>
+  </div>
+</div>

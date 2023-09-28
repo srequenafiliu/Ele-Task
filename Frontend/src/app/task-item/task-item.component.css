@@ -9,7 +9,7 @@
   box-shadow: 20px 20px 20px;
 }
 #descripcion{
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 991px) {
     height: 45%;
     overflow: scroll;
   }

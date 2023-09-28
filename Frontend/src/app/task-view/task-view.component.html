@@ -19,16 +19,14 @@
   *ngIf="tareas && tareas.length">
     <ul class="pagination" [ngClass]="{'pagination-lg':innerWidth>=576}">
       <li class="page-item" [ngClass]="{'disabled': pag === 1}">
-        <a class="page-link" [routerLink]="['.']"
-          [queryParams]="getQueryParams(pag-1, nombre)">&laquo;</a>
+        <a class="page-link" [routerLink]="['.']" [queryParams]="getQueryParams(pag-1)">&laquo;</a>
       </li>
       <li class="page-item" [ngClass]="{'active': pag === P}" *ngFor="let P of pages, let i=index">
         <a class="page-link" [ngClass]="{'opacity-75': P === '...'}" [routerLink]="['.']"
-          [queryParams]="getQueryParams(P!=='...' ? +P : +pages[i-1]+1, nombre)">{{P}}</a>
+          [queryParams]="getQueryParams(P!=='...' ? +P : +pages[i-1]+1)">{{P}}</a>
       </li>
       <li class="page-item" [ngClass]="{'disabled': pages[pages.length-1] === pag}">
-        <a class="page-link" [routerLink]="['.']"
-          [queryParams]="getQueryParams(pag+1, nombre)">&raquo;</a>
+        <a class="page-link" [routerLink]="['.']" [queryParams]="getQueryParams(pag+1)">&raquo;</a>
       </li>
     </ul>
   </div>

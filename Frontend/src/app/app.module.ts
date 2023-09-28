@@ -12,16 +12,18 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BaseUrlInterceptor } from './interceptors/base-url.interceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserInfoComponent } from './user-info/user-info.component';
+import { TaskInfoComponent } from './task-info/task-info.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { TaskListComponent } from './task-list/task-list.component';
+import { TaskViewComponent } from './task-view/task-view.component';
 import { TaskItemComponent } from './task-item/task-item.component';
 import { TaskAddComponent } from './task-add/task-add.component';
+import { TaskManagementComponent } from './task-management/task-management.component';
+import { UserUpdateComponent } from './user-update/user-update.component';
+import { UserDeleteComponent } from './user-delete/user-delete.component';
 
 import localeEs from '@angular/common/locales/es';
 import {registerLocaleData} from '@angular/common';
-import { TaskViewComponent } from './task-view/task-view.component';
-import { TaskUpdateComponent } from './task-update/task-update.component';
-import { UserUpdateComponent } from './user-update/user-update.component';
 registerLocaleData(localeEs, 'es');
 
 @NgModule({
@@ -29,6 +31,7 @@ registerLocaleData(localeEs, 'es');
     AppComponent,
     NavbarComponent,
     HomeComponent,
+    TaskInfoComponent,
     UserListComponent,
     RegisterLoginComponent,
     UserInfoComponent,
@@ -36,8 +39,9 @@ registerLocaleData(localeEs, 'es');
     TaskItemComponent,
     TaskAddComponent,
     TaskViewComponent,
-    TaskUpdateComponent,
-    UserUpdateComponent
+    TaskManagementComponent,
+    UserUpdateComponent,
+    UserDeleteComponent
   ],
   imports: [
     BrowserModule,
