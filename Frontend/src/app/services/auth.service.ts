@@ -2,9 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject, map } from 'rxjs';
-import { ILogin } from '../interfaces/i-login';
-import { IUsuario } from '../interfaces/i-usuario';
-import { IPassword } from '../interfaces/i-password';
+import { ILogin, IPassword, IUsuario } from '../interfaces/i-usuario';
 
 @Injectable({
   providedIn: 'root'

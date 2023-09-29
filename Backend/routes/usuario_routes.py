@@ -4,18 +4,21 @@ from models import Usuario
 from schemas import validate_json, UsuarioSchema, UsuarioLoggedSchema, UsuarioConTareasSchema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from sqlalchemy.exc import IntegrityError
-from PIL import Image
-import io, base64, os
 from urllib.parse import urlencode
+import cloudinary
+import cloudinary.uploader
 
 usuarios = Blueprint('usuarios', __name__)
 
+cloudinary.config(
+  cloud_name = "dnysaui3k",
+  api_key = "239394556466436",
+  api_secret = "_xiv9APrG6uu7yMqAR48kWYXJ3o"
+)
+
 def guarda_imagen(json):
-    imagen_str = json["imagen"].split(",")[1] if json["imagen"].startswith("data") else json["imagen"]
-    img = Image.open(io.BytesIO(base64.decodebytes(bytes(imagen_str, "utf-8"))))
-    ruta = f"images/{json['usuario']}.jpg"
-    img.convert('RGB').save(f"{os.path.dirname(__file__)}/../{ruta}")
-    return ruta
+    response = cloudinary.uploader.upload(json["imagen"], folder='Ele-Task/images')
+    return response["secure_url"]
 
 @usuarios.get('') # type: ignore
 def get_usuarios():
@@ -63,10 +66,14 @@ def update_usuario():
         usuario.email = json["email"]
         usuario.usuario = json["usuario"]
         if "imagen" in json and json["imagen"]==None:
+            if usuario.imagen != None:
+              cloudinary.uploader.destroy(usuario.imagen[usuario.imagen.index('Ele-Task'): -4])
             usuario.imagen = None
         elif not json["imagen"].startswith("http"): # base64
             ruta = guarda_imagen(json)
-            usuario.imagen = request.host_url+ruta
+            if usuario.imagen != None:
+              cloudinary.uploader.destroy(usuario.imagen[usuario.imagen.index('Ele-Task'): -4])
+            usuario.imagen = ruta
         try:
             db.session().commit()
             schema = UsuarioConTareasSchema()

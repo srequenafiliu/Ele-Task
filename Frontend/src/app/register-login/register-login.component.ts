@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { IUsuario } from '../interfaces/i-usuario';
-import { ILogin } from '../interfaces/i-login';
+import { ILogin, IUsuario } from '../interfaces/i-usuario';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 

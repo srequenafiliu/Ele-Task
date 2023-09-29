@@ -3,18 +3,21 @@ from db import db
 from models import Usuario
 from schemas import validate_json, UsuarioLoggedSchema, UsuarioPasswordSchema
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-from PIL import Image
-import io, base64, os
 from sqlalchemy.exc import IntegrityError
+import cloudinary
+import cloudinary.uploader
 
 auth = Blueprint('auth', __name__)
 
+cloudinary.config(
+  cloud_name = "dnysaui3k",
+  api_key = "239394556466436",
+  api_secret = "_xiv9APrG6uu7yMqAR48kWYXJ3o"
+)
+
 def guarda_imagen(json):
-    imagen_str = json["imagen"].split(",")[1] if json["imagen"].startswith("data") else json["imagen"]
-    img = Image.open(io.BytesIO(base64.decodebytes(bytes(imagen_str, "utf-8"))))
-    ruta = f"images/{json['usuario']}.jpg"
-    img.convert('RGB').save(f"{os.path.dirname(__file__)}/../{ruta}")
-    return ruta
+    response = cloudinary.uploader.upload(json["imagen"], folder='Ele-Task/images')
+    return response["secure_url"]
 
 @auth.post('/login') # type: ignore
 def login():
@@ -33,8 +36,7 @@ def register():
     json = request.json
     if (json):
         ruta = guarda_imagen(json) if "imagen" in json and json["imagen"]!=None else None
-        usuario = Usuario(nombre= json["nombre"], email = json["email"], usuario = json["usuario"], password = json["password"],
-                          imagen=request.host_url+ruta if ruta!=None else None)
+        usuario = Usuario(nombre= json["nombre"], email = json["email"], usuario = json["usuario"], password = json["password"], imagen=ruta)
         try:
             schema = UsuarioLoggedSchema()
             db.session().add(usuario)
