@@ -46,7 +46,7 @@ def get_tareas_usuario():
     if pag != 2:
         params_prev['pag'] = pag-1
     tareas = db.session().execute(select).scalars().all()
-    if realizada is False: # Se reordena la lista de tareas para mover las tareas sin fechas a los últimos lugares
+    if realizada == 0: # Se reordena la lista de tareas para mover las tareas sin fechas a los últimos lugares
         tareas = sorted(tareas, key=lambda tarea: (0, tarea.fecha) if tarea.fecha is not None else (1,))
     response = {
         'count': len(tareas),
