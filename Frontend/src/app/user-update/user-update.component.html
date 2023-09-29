@@ -27,7 +27,7 @@
             <label for="usuario">Usuario<span class="text-danger">*</span></label>
           </div>
           <div class="offset-lg-2 col-lg-10 form-group form-floating my-1">
-            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" [(ngModel)]="user.password"
+            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" [(ngModel)]="password"
             [ngClass]="{'is-invalid': errores.password && errores.password.length, 'is-valid': !errores.password}" required>
             <div class="invalid-feedback" *ngFor="let error of errores.password">{{error}}</div>
             <label for="password">Contraseña<span class="text-danger">**</span></label>

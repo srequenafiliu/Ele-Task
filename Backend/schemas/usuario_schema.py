@@ -24,7 +24,7 @@ class UsuarioLoggedSchema(UsuarioSchema):
         },
         validate={
             validate.Length(min=4, error="El nombre debe tener al menos 4 caracteres"),
-            validate.Regexp(regex="\D", error="El nombre no puede contener números"),
+            validate.Regexp(regex="^\D+$", error="El nombre no puede contener números"),
         }
     )
     email = fields.Str(

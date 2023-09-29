@@ -13,6 +13,7 @@ export class UserUpdateComponent implements OnInit {
   opcion = 'conservar';
   errores = this.cleanErrores();
   valorImagen:string|null = null
+  password = '';
 
   constructor(private userService:UserService, private authService:AuthService) {}
   ngOnInit(): void {
@@ -45,12 +46,14 @@ export class UserUpdateComponent implements OnInit {
     if (this.opcion == 'borrar') user.imagen = null;
     const copia_usuario = Object.assign({}, user);
     copia_usuario.tareas = undefined;
+    copia_usuario.password = this.password;
     this.userService.updateUser(copia_usuario).subscribe({
       next:respu=>{
         respu.imagen = copia_usuario.imagen
         this.authService.sendData(respu)
         this.errores = this.cleanErrores();
         fileImage.value = '';
+        this.password = '';
         this.authService.addAlert("alertUpdate", true, "Datos actualizados correctamente", false);
       },
       error:e=>this.errores = (e.error.messages != undefined) ? e.error.messages : this.cleanErrores()
@@ -64,5 +67,6 @@ export class UserUpdateComponent implements OnInit {
     })
     this.errores = this.cleanErrores();
     fileImage.value = '';
+    this.password = '';
   }
 }
