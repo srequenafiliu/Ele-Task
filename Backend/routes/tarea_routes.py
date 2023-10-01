@@ -6,15 +6,27 @@ from schemas import validate_json, TareaSchema, TareaConUsuarioSchema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from urllib.parse import urlencode
 from datetime import datetime
+import pytz
 
 tareas = Blueprint('tareas', __name__)
+
+def vencida(value:datetime):
+    value = datetime.fromisoformat(str(value))
+    value = value.replace(tzinfo=pytz.UTC)
+    return value < datetime.now(pytz.UTC)
 
 @tareas.get('') # type: ignore
 def get_tareas():
     select = db.select(Tarea)
     tareas = db.session().execute(select).scalars().all()
-    schema = TareaSchema(many=True)
-    return jsonify(schema.dump(tareas))
+    sin_realizar = [tarea for tarea in tareas if not tarea.realizada]
+    response = {
+        "total": len(tareas),
+        "sin_realizar": len([tarea for tarea in sin_realizar if not tarea.fecha or (tarea.fecha and not vencida(tarea.fecha))]),
+        "vencidas": len([tarea for tarea in sin_realizar if tarea.fecha and vencida(tarea.fecha)]),
+        "realizadas": len([tarea for tarea in tareas if tarea.realizada])
+    }
+    return jsonify(response)
 
 @tareas.get('/<int:id>')
 @jwt_required()

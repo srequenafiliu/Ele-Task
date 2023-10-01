@@ -37,10 +37,9 @@ export class TaskInfoComponent implements OnInit {
 
   constructor(private taskService:TaskService) { }
   ngOnInit(): void {
-    this.taskService.getTasks().subscribe(resp => {
-      this.tareas = resp.length;
-      this.datos = [resp.filter(t => !t.realizada && (!t.fecha || (t.fecha && !this.timeout(t)))).length,
-        resp.filter(t => !t.realizada && t.fecha &&  this.timeout(t)).length, resp.filter(t => t.realizada).length]
+    this.taskService.getInfoTasks().subscribe(resp => {
+      this.tareas = resp.total;
+      this.datos = [resp.sin_realizar, resp.vencidas, resp.realizadas]
       this.createChart() // Datos del gráfico
     });
   }

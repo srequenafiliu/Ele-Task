@@ -1,15 +1,16 @@
-from flask import Flask
+from flask import Flask, send_file
 from db import db
 from routes import rutas_tareas, rutas_auth, rutas_usuarios
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
+app.json.sort_keys = False
 CORS(app)
 
 @app.get("/")
 def root():
-  return "Servidor de Ele-Task encendido"
+  return send_file("index.html")
 
 app.register_blueprint(rutas_tareas, url_prefix="/tareas")
 app.register_blueprint(rutas_auth, url_prefix="/auth")

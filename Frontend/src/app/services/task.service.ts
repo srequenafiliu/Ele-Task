@@ -10,8 +10,8 @@ export class TaskService {
   private taskURL="tareas";
   constructor(private http:HttpClient) { }
 
-  getTasks():Observable<ITarea[]> {
-    return this.http.get<ITarea[]>(this.taskURL).pipe(
+  getInfoTasks():Observable<{total:number, sin_realizar:number, vencidas:number, realizadas:number}> {
+    return this.http.get<{total:number, sin_realizar:number, vencidas:number, realizadas:number}>(this.taskURL).pipe(
       catchError((resp: HttpErrorResponse) => throwError( () => 'Error '+resp.status+': '+resp.statusText))
     );
   }
