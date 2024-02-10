@@ -11,7 +11,7 @@
           *ngIf="user.imagen; else sinFoto">
         <ng-template #sinFoto>
           <span class="fa-4x d-flex rounded" [ngStyle]="{'background':'radial-gradient(#e48c8c, #e48c8c, #59668b, #59668b)'}">
-            <i class="fas fa-clipboard fa-xl fa-inverse m-auto"></i>
+            <i class="fas fa-clipboard fa-inverse m-auto"[ngClass]="{'fa-xl':!movil}"></i>
           </span>
         </ng-template>
         <div class="row g-0 card-text mt-4">
